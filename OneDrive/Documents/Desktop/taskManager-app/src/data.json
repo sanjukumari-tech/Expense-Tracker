@@ -1,0 +1,319 @@
+{
+  "boards": [
+    {
+      "name": "Daily Routine",
+      "isActive": true,
+      "columns": [
+        {
+          "name": "Morning",
+          "tasks": [
+            {
+              "title": "Morning Stand-up Meeting",
+              "description": "Daily team stand-up meeting to discuss progress and blockers.",
+              "status": "Todo",
+              "subtasks": [
+                {
+                  "title": "Prepare updates",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Join meeting",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Share progress",
+                  "isCompleted": false
+                }
+              ]
+            },
+            {
+              "title": "Code Review",
+              "description": "Review code submitted by peers.",
+              "status": "Todo",
+              "subtasks": [
+                {
+                  "title": "Review pull requests",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Provide feedback",
+                  "isCompleted": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Afternoon",
+          "tasks": [
+            {
+              "title": "Development",
+              "description": "Work on assigned tasks and features.",
+              "status": "Doing",
+              "subtasks": [
+                {
+                  "title": "Implement feature X",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Fix bug Y",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Write unit tests",
+                  "isCompleted": false
+                }
+              ]
+            },
+            {
+              "title": "Client Meeting",
+              "description": "Discuss project requirements and updates with the client.",
+              "status": "Doing",
+              "subtasks": [
+                {
+                  "title": "Prepare agenda",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Join meeting",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Send follow-up email",
+                  "isCompleted": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Evening",
+          "tasks": [
+            {
+              "title": "Team Sync-up",
+              "description": "Sync-up with the team to wrap up the day.",
+              "status": "Done",
+              "subtasks": [
+                {
+                  "title": "Discuss completed tasks",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Plan for tomorrow",
+                  "isCompleted": true
+                }
+              ]
+            },
+            {
+              "title": "Learning and Development",
+              "description": "Spend time learning new technologies or improving skills.",
+              "status": "Done",
+              "subtasks": [
+                {
+                  "title": "Read articles",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Watch tutorials",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Practice coding",
+                  "isCompleted": false
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Project Progress",
+      "isActive": false,
+      "columns": [
+        {
+          "name": "Todo",
+          "tasks": [
+            {
+              "title": "Set up project repository",
+              "description": "",
+              "status": "Todo",
+              "subtasks": [
+                {
+                  "title": "Initialize repo",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Set up CI/CD",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Write initial documentation",
+                  "isCompleted": false
+                }
+              ]
+            },
+            {
+              "title": "Design database schema",
+              "description": "",
+              "status": "Todo",
+              "subtasks": [
+                {
+                  "title": "Identify entities",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Define relationships",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Create ER diagram",
+                  "isCompleted": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "In Progress",
+          "tasks": [
+            {
+              "title": "Develop authentication module",
+              "description": "",
+              "status": "Doing",
+              "subtasks": [
+                {
+                  "title": "Implement login",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Implement registration",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Implement password reset",
+                  "isCompleted": false
+                }
+              ]
+            },
+            {
+              "title": "Create user dashboard",
+              "description": "",
+              "status": "Doing",
+              "subtasks": [
+                {
+                  "title": "Design UI",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Implement UI",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Connect to backend",
+                  "isCompleted": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Completed",
+          "tasks": [
+            {
+              "title": "Set up development environment",
+              "description": "",
+              "status": "",
+              "subtasks": [
+                {
+                  "title": "Install necessary tools",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Configure settings",
+                  "isCompleted": true
+                }
+              ]
+            },
+            {
+              "title": "Create project plan",
+              "description": "Outline the project roadmap and milestones.",
+              "status": "",
+              "subtasks": [
+                {
+                  "title": "Identify key milestones",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Define deliverables",
+                  "isCompleted": true
+                },
+                {
+                  "title": "Create timeline",
+                  "isCompleted": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Personal Development",
+      "isActive": false,
+      "columns": [
+        {
+          "name": "Goals",
+          "tasks": [
+            {
+              "title": "Improve React skills",
+              "description": "Focus on learning advanced React patterns and hooks.",
+              "status": "",
+              "subtasks": [
+                {
+                  "title": "Read React documentation",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Build small projects",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Join React community",
+                  "isCompleted": false
+                }
+              ]
+            },
+            {
+              "title": "Learn TypeScript",
+              "description": "Add type safety to your JavaScript projects.",
+              "status": "",
+              "subtasks": [
+                {
+                  "title": "Read TypeScript handbook",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Refactor existing projects",
+                  "isCompleted": false
+                },
+                {
+                  "title": "Take online courses",
+                  "isCompleted": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "In Progress",
+          "tasks": []
+        },
+        {
+          "name": "Completed",
+          "tasks": []
+        }
+      ]
+    }
+  ]
+}
