@@ -13,7 +13,7 @@ function App() {
   if (!activeBoard && boards.length > 0)
     dispatch(boardsSlice.actions.setBoardActive({ index: 0 }));
   return (
-    <div className=" overflow-hidden  overflow-x-scroll">
+    <div className="h-screen overflow-hidden">
       <>
         {boards.length > 0 ?
         <>

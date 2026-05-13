@@ -50,10 +50,10 @@ function Column({ colIndex }) {
     <div
       onDrop={handleOnDrop}
       onDragOver={handleOnDragOver}
-      className="scrollbar-hide   mx-5 pt-[90px] min-w-[280px] "
+      className="scrollbar-hide mx-3 sm:mx-5 pt-[80px] min-w-[240px] sm:min-w-[280px]"
     >
-      <p className=" font-semibold flex  items-center  gap-2 tracking-widest md:tracking-[.2em] text-[#828fa3]">
-        <div className={`rounded-full w-4 h-4 ${color} `} />
+      <p className="font-semibold flex items-center gap-2 tracking-wide md:tracking-[.2em] text-[#828fa3] text-xs sm:text-sm uppercase">
+        <span className={`rounded-full w-3 h-3 sm:w-4 sm:h-4 flex-shrink-0 ${color}`} />
         {col.name} ({col.tasks.length})
       </p>
 

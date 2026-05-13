@@ -104,23 +104,17 @@ function AddEditTaskModal({
     <div
       className={
         device === "mobile"
-          ? "  py-6 px-6 pb-40  absolute overflow-y-scroll  left-0 flex  right-0 bottom-[-100vh] top-0 dropdown "
-          : "  py-6 px-6 pb-40  absolute overflow-y-scroll  left-0 flex  right-0 bottom-0 top-0 dropdown "
+          ? "fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/50 px-4 pb-8 sm:pb-0"
+          : "fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4"
       }
       onClick={(e) => {
-        if (e.target !== e.currentTarget) {
-          return;
-        }
+        if (e.target !== e.currentTarget) return;
         setIsAddTaskModalOpen(false);
       }}
     >
       {/* Modal Section */}
-
-      <div
-        className=" scrollbar-hide overflow-y-scroll max-h-[95vh]  my-auto  bg-white dark:bg-[#2b2c37] text-black dark:text-white font-bold
-       shadow-md shadow-[#364e7e1a] max-w-md mx-auto  w-full px-8  py-8 rounded-xl"
-      >
-        <h3 className=" text-lg ">
+      <div className="scrollbar-hide overflow-y-auto max-h-[90vh] w-full max-w-md bg-white dark:bg-[#2b2c37] text-black dark:text-white font-bold shadow-lg rounded-2xl px-6 py-8">
+        <h3 className="text-lg">
           {type === "edit" ? "Edit" : "Add New"} Task
         </h3>
 

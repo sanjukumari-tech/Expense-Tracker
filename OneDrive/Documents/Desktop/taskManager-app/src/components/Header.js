@@ -49,73 +49,68 @@ function Header({ setIsBoardModalOpen, isBoardModalOpen }) {
   };
 
   return (
-    <div className=" p-4 fixed left-0 bg-white dark:bg-[#2b2c37] z-50 right-0 ">
-      <header className=" flex justify-between dark:text-white items-center  ">
-        {/* Left Side  */}
-        <div className=" flex items-center space-x-2  md:space-x-4">
-          <img src={Logo} alt=" Logo " className=" h-6 w-6" />
-          <h3 className=" md:text-4xl  hidden md:inline-block font-bold  font-sans">
-           Dashboard
+    <div className="px-4 py-3 fixed left-0 right-0 bg-white dark:bg-[#2b2c37] z-50 flex items-center justify-between shadow-sm">
+      {/* Left Side */}
+      <div className="flex items-center gap-2 md:gap-4 min-w-0">
+        <img src={Logo} alt="Logo" className="h-6 w-6 flex-shrink-0" />
+        <h3 className="text-2xl sm:text-3xl md:text-4xl hidden md:inline-block font-bold font-sans flex-shrink-0">
+          Dashboard
+        </h3>
+        {/* Divider visible on md+ */}
+        <div className="hidden md:block w-px h-8 bg-gray-200 dark:bg-gray-600" />
+        <div className="flex items-center gap-1 min-w-0">
+          <h3 className="truncate max-w-[120px] xs:max-w-[160px] sm:max-w-[220px] md:max-w-xs text-base sm:text-lg md:text-2xl font-bold font-sans dark:text-white">
+            {board.name}
           </h3>
-          <div className=" flex items-center ">
-            <h3 className=" truncate max-w-[200px] md:text-2xl text-xl font-bold md:ml-20 font-sans  ">
-              {board.name}
-            </h3>
-            <img
-              src={openDropdown ? iconUp : iconDown}
-              alt=" dropdown icon"
-              className=" w-3 ml-2 md:hidden"
-              onClick={onDropdownClick}
-            />
-          </div>
-        </div>
-
-        {/* Right Side */}
-
-        <div className=" flex space-x-4 items-center md:space-x-6 ">
-          <button
-            className=" button hidden md:block "
-            onClick={() => {
-              setIsTaskModalOpen((prevState) => !prevState);
-            }}
-          >
-            + Add New Task
-          </button>
-          <button
-            onClick={() => {
-              setIsTaskModalOpen((prevState) => !prevState);
-            }}
-            className=" button py-1 px-3 md:hidden "
-          >
-            +
-          </button>
-
           <img
-            onClick={() => {
-              setBoardType("edit");
-              setOpenDropdown(false)
-              setIsElipsisMenuOpen((prevState) => !prevState);
-            }}
-            src={elipsis}
-            alt="elipsis"
-            className=" cursor-pointer h-6"
+            src={openDropdown ? iconUp : iconDown}
+            alt="dropdown icon"
+            className="w-3 ml-1 md:hidden flex-shrink-0 cursor-pointer"
+            onClick={onDropdownClick}
           />
-          {isElipsisMenuOpen && (
-            <ElipsisMenu
-              type="Boards"
-              setOpenEditModal={setOpenEditModal}
-              setOpenDeleteModal={setOpenDeleteModal}
-            />
-          )}
         </div>
+      </div>
 
-        {openDropdown && (
-          <HeaderDropDown
-            setOpenDropdown={setOpenDropdown}
-            setIsBoardModalOpen={setIsBoardModalOpen}
+      {/* Right Side */}
+      <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
+        <button
+          className="button hidden sm:block text-sm md:text-base px-4 md:px-6"
+          onClick={() => setIsTaskModalOpen((prevState) => !prevState)}
+        >
+          + Add New Task
+        </button>
+        <button
+          onClick={() => setIsTaskModalOpen((prevState) => !prevState)}
+          className="button py-1.5 px-4 sm:hidden text-lg font-bold"
+        >
+          +
+        </button>
+
+        <img
+          onClick={() => {
+            setBoardType("edit");
+            setOpenDropdown(false);
+            setIsElipsisMenuOpen((prevState) => !prevState);
+          }}
+          src={elipsis}
+          alt="elipsis"
+          className="cursor-pointer h-6 flex-shrink-0"
+        />
+        {isElipsisMenuOpen && (
+          <ElipsisMenu
+            type="Boards"
+            setOpenEditModal={setOpenEditModal}
+            setOpenDeleteModal={setOpenDeleteModal}
           />
         )}
-      </header>
+      </div>
+
+      {openDropdown && (
+        <HeaderDropDown
+          setOpenDropdown={setOpenDropdown}
+          setIsBoardModalOpen={setIsBoardModalOpen}
+        />
+      )}
       {isTaskModalOpen && (
         <AddEditTaskModal
           setIsAddTaskModalOpen={setIsTaskModalOpen}

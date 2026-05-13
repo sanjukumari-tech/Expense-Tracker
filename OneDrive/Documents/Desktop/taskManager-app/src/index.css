@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ───────── Base Reset ───────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* Prevent font-size inflation on iOS */
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -9,7 +21,9 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f0f4f8; /* Light background color for better contrast */
+  background-color: #f4f7fd;
+  /* Prevent horizontal overflow at the root level */
+  overflow-x: hidden;
 }
 
 code {
@@ -17,40 +31,53 @@ code {
     monospace;
 }
 
+/* ───────── Component Layer ───────── */
 @layer components {
+  /* Primary action button */
   .button {
-    background-color: #1f1ab8;
-    padding: 0.5rem 1rem;
+    background-color: #635fc7;
+    padding: 0.5rem 1.25rem;
     border-radius: 9999px;
     color: white;
-    font-size: 1.125rem;
-    font-weight: 600;
-    transition: opacity 0.2s, transform 0.2s;
+    font-size: 0.95rem;
+    font-weight: 700;
+    transition: opacity 0.2s, transform 0.15s;
+    white-space: nowrap;
+    cursor: pointer;
+    border: none;
+    outline: none;
   }
 
   .button:hover {
-    opacity: 0.8;
-    transform: scale(1.05);
+    opacity: 0.85;
+    transform: scale(1.03);
+  }
+
+  .button:active {
+    transform: scale(0.97);
+  }
+
+  /* Responsive modal inner scroll container */
+  .modal-panel {
+    @apply w-full max-w-md bg-white dark:bg-[#2b2c37] text-black dark:text-white
+           font-bold shadow-lg rounded-2xl px-5 py-7 overflow-y-auto max-h-[90vh];
   }
 }
 
+/* ───────── Utilities ───────── */
+
+/* Backdrop overlay used by modals / dropdowns */
 .dropdown {
-  background-color: #00000080;
-  border-radius: 0.5rem;
-  padding: 1rem;
-  color: white;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  transition: opacity 0.3s ease-in-out;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
-.dropdown:hover {
-  opacity: 0.9;
-}
-
+/* SVG filter to turn icons white */
 .filter-white {
-  filter: invert(100%) sepia(96%) saturate(16%) hue-rotate(350deg) brightness(104%) contrast(100%);
+  filter: invert(100%) sepia(96%) saturate(16%) hue-rotate(350deg)
+    brightness(104%) contrast(100%);
 }
 
+/* Custom styled select */
 .select-status {
   background-image: url("./assets/icon-chevron-down.svg");
   background-repeat: no-repeat;
@@ -59,13 +86,39 @@ code {
   background-color: white;
   border: 1px solid #d1d5db;
   border-radius: 0.5rem;
-  padding: 0.5rem 1rem 0.5rem 1rem;
-  padding-right: 2.5rem;
+  padding: 0.5rem 2.5rem 0.5rem 1rem;
   color: black;
+  width: 100%;
   transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
 .select-status:focus {
-  border-color: #d963f1;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  border-color: #635fc7;
+  box-shadow: 0 0 0 3px rgba(99, 95, 199, 0.2);
+  outline: none;
+}
+
+/* Dark mode select overrides */
+.dark .select-status {
+  background-color: #2b2c37;
+  border-color: #4b5563;
+  color: white;
+}
+
+/* ───────── Responsive touch targets ───────── */
+@media (max-width: 639px) {
+  /* Ensure all clickable elements have a minimum touch target */
+  button,
+  [role="button"],
+  input[type="checkbox"] {
+    min-height: 36px;
+  }
+
+  /* Inputs fill their container on mobile */
+  input[type="text"],
+  textarea,
+  select {
+    width: 100%;
+    font-size: 16px; /* Prevents iOS auto-zoom on focus */
+  }
 }
