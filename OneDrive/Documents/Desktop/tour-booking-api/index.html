@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Rishikesh Adventure Booking</title>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 24px 16px;
+  }
+
+  .card {
+    background: #fff;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 560px;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.35);
+  }
+
+  .card-header {
+    background: linear-gradient(135deg, #1a6b3c, #27ae60);
+    padding: 24px 28px;
+    color: #fff;
+  }
+  .card-header h1 { font-size: 1.4rem; font-weight: 700; }
+  .card-header p  { font-size: 0.85rem; opacity: 0.85; margin-top: 4px; }
+
+  .form-body { padding: 24px 28px; display: flex; flex-direction: column; gap: 18px; }
+
+  label { display: block; font-size: 0.78rem; font-weight: 600; color: #444; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.4px; }
+
+  select, input {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    color: #222;
+    background: #fafafa;
+    transition: border-color 0.2s;
+    appearance: none;
+  }
+  select:focus, input:focus { outline: none; border-color: #27ae60; background: #fff; }
+
+  .dates-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+  }
+  .date-btn {
+    border: 1.5px solid #ddd;
+    background: #fafafa;
+    border-radius: 8px;
+    padding: 8px 4px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+  }
+  .date-btn:hover { border-color: #27ae60; background: #f0faf4; }
+  .date-btn.active { background: #27ae60; border-color: #27ae60; color: #fff; }
+  .date-btn .dow { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; opacity: 0.7; }
+  .date-btn .day { font-size: 1.1rem; font-weight: 700; line-height: 1.2; }
+  .date-btn .mon { font-size: 0.65rem; opacity: 0.7; }
+  .date-btn.active .dow, .date-btn.active .mon { opacity: 0.85; }
+  .date-btn.weekend-btn { border-color: #f39c12; }
+  .date-btn.weekend-btn.active { background: #f39c12; border-color: #f39c12; }
+
+  .time-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  .time-btn {
+    border: 1.5px solid #ddd;
+    background: #fafafa;
+    border-radius: 8px;
+    padding: 9px 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+    color: #333;
+  }
+  .time-btn:hover { border-color: #27ae60; background: #f0faf4; }
+  .time-btn.active { background: #27ae60; border-color: #27ae60; color: #fff; }
+
+  .guests-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .guests-row button {
+    width: 36px; height: 36px;
+    border: 1.5px solid #ddd;
+    background: #fafafa;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    font-weight: 700;
+    color: #333;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .guests-row button:hover { border-color: #27ae60; background: #f0faf4; }
+  .guests-count { font-size: 1.3rem; font-weight: 700; min-width: 28px; text-align: center; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+  .summary {
+    background: #f8fffe;
+    border: 1.5px solid #c8eedd;
+    border-radius: 10px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .summary-row { display: flex; justify-content: space-between; font-size: 0.9rem; color: #444; }
+  .summary-row.weekend { color: #e67e22; font-weight: 500; }
+  .summary-row.total { font-size: 1rem; font-weight: 700; color: #1a6b3c; border-top: 1px solid #c8eedd; padding-top: 8px; margin-top: 2px; }
+  .summary-row.prebook { color: #2980b9; font-weight: 600; }
+  .summary-row.due { color: #7f8c8d; font-size: 0.85rem; }
+
+  .weekend-badge {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 0.82rem;
+    color: #856404;
+    display: none;
+  }
+  .weekend-badge.show { display: block; }
+
+  .prebook-note {
+    background: #e8f4fd;
+    border: 1px solid #90caf9;
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 0.84rem;
+    color: #1565c0;
+    line-height: 1.5;
+  }
+
+  .btn-pay {
+    background: linear-gradient(135deg, #1a6b3c, #27ae60);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    width: 100%;
+    transition: opacity 0.2s, transform 0.1s;
+    letter-spacing: 0.3px;
+  }
+  .btn-pay:hover { opacity: 0.92; transform: translateY(-1px); }
+  .btn-pay:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  .success-screen {
+    display: none;
+    padding: 40px 28px;
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  .success-screen.show { display: flex; }
+  .success-icon { font-size: 4rem; }
+  .success-screen h2 { color: #1a6b3c; font-size: 1.4rem; }
+  .success-screen p { color: #555; font-size: 0.92rem; line-height: 1.6; }
+  .success-detail { background: #f0faf4; border-radius: 10px; padding: 16px; width: 100%; text-align: left; }
+  .success-detail .row { display: flex; justify-content: space-between; font-size: 0.88rem; padding: 4px 0; color: #333; }
+  .success-detail .row strong { color: #1a6b3c; }
+
+  @media (max-width: 480px) {
+    .two-col { grid-template-columns: 1fr; }
+    .time-grid { grid-template-columns: repeat(3, 1fr); }
+    .dates-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="card-header">
+    <h1>⛵ Rishikesh Adventure Booking</h1>
+    <p>Select your activity, date & pay ₹100/person to prebook</p>
+  </div>
+
+  <div class="form-body" id="formBody">
+
+    <!-- Tour Select -->
+    <div>
+      <label>Select Adventure</label>
+      <select id="tourSelect">
+        <option value="">-- Choose an activity --</option>
+        <option value="RISHIKESH RIVER RAFTING 12KM|699">RISHIKESH RIVER RAFTING 12KM (₹699/person)</option>
+        <option value="Rishikesh River Rafting 14km|799">Rishikesh River Rafting (14km) (₹799/person)</option>
+        <option value="Rishikesh River Rafting 16km|999">Rishikesh River Rafting (16km) (₹999/person)</option>
+        <option value="Ganga Bungy 219 MTR + DSLR Video|5999">Ganga Bungy 219 MTR + DSLR Video (₹5999/person)</option>
+        <option value="Splash Bungy 85 MTR|2500">Splash Bungy 85 MTR Bungy (₹2500/person)</option>
+        <option value="Jumpin Heights River View Bungy|3999">Jumpin Heights (River View Bungy) (₹3999/person)</option>
+        <option value="Himalayan Bungee 111 Mtr|3599">Himalayan Bungee 111 Mtr (₹3599/person)</option>
+        <option value="Splash Bungee 109MTR|3399">Splash Bungee 109MTR (₹3399/person)</option>
+      </select>
+    </div>
+
+    <!-- Date -->
+    <div>
+      <label>Select Date (Next 7 Days)</label>
+      <div class="dates-grid" id="datesGrid"></div>
+    </div>
+
+    <!-- Time -->
+    <div>
+      <label>Select Time Slot</label>
+      <div class="time-grid" id="timeGrid">
+        <button class="time-btn" data-time="06:00 AM">06:00 AM</button>
+        <button class="time-btn" data-time="10:00 AM">10:00 AM</button>
+        <button class="time-btn" data-time="11:00 AM">11:00 AM</button>
+        <button class="time-btn" data-time="12:00 PM">12:00 PM</button>
+        <button class="time-btn" data-time="01:00 PM">01:00 PM</button>
+        <button class="time-btn" data-time="02:00 PM">02:00 PM</button>
+        <button class="time-btn" data-time="03:00 PM">03:00 PM</button>
+        <button class="time-btn" data-time="04:00 PM">04:00 PM</button>
+      </div>
+    </div>
+
+    <!-- Guests -->
+    <div>
+      <label>Number of Guests</label>
+      <div class="guests-row">
+        <button onclick="changeGuests(-1)">−</button>
+        <span class="guests-count" id="guestsCount">1</span>
+        <button onclick="changeGuests(1)">+</button>
+        <span style="font-size:0.85rem;color:#777">person(s)</span>
+      </div>
+    </div>
+
+    <!-- Contact -->
+    <div>
+      <label>Full Name</label>
+      <input type="text" id="contactName" placeholder="Enter your full name"/>
+    </div>
+    <div class="two-col">
+      <div>
+        <label>WhatsApp Number</label>
+        <input type="tel" id="contactPhone" placeholder="9876543210"/>
+      </div>
+      <div>
+        <label>Email Address</label>
+        <input type="email" id="contactEmail" placeholder="you@email.com"/>
+      </div>
+    </div>
+    <div>
+      <label>State</label>
+      <input type="text" id="state" placeholder="e.g. Uttarakhand"/>
+    </div>
+
+    <!-- Weekend badge -->
+    <div class="weekend-badge" id="weekendBadge">
+      ⚡ Weekend pricing applies on Saturday &amp; Sunday (+₹150/person)
+    </div>
+
+    <!-- Summary -->
+    <div class="summary" id="summary">
+      <div class="summary-row"><span>Package Base Price</span><span id="sumBase">₹0 × 0</span></div>
+      <div class="summary-row weekend" id="surchargeRow" style="display:none"><span>🗓️ Weekend Surcharge (+₹150/person)</span><span id="sumSurcharge">₹0</span></div>
+      <div class="summary-row total"><span>Total Amount</span><span id="sumTotal">₹0</span></div>
+      <div class="summary-row prebook"><span>⚡ Pay Now (Prebooking ₹100/person)</span><span id="sumPrebook">₹0</span></div>
+      <div class="summary-row due"><span>💰 Due on Arrival</span><span id="sumDue">₹0</span></div>
+    </div>
+
+    <!-- Prebook Note -->
+    <div class="prebook-note">
+      🔒 <strong>Secure your spot</strong> by paying just <strong>₹100 per person</strong> now. The remaining amount is collected on arrival. Prebooking confirms your slot instantly.
+    </div>
+
+    <button class="btn-pay" id="payBtn" onclick="startPayment()" disabled>
+      Prebook Now — Pay ₹0
+    </button>
+
+  </div>
+
+  <!-- Success Screen -->
+  <div class="success-screen" id="successScreen">
+    <div class="success-icon">🎉</div>
+    <h2>Prebooked Successfully!</h2>
+    <p>Your adventure slot is confirmed. Pay the remaining amount on arrival.</p>
+    <div class="success-detail" id="successDetail"></div>
+    <button class="btn-pay" onclick="resetForm()" style="margin-top:8px;">Book Another</button>
+  </div>
+</div>
+
+<script>
+// ─── Config ──────────────────────────────────────────────
+const API_BASE = 'http://localhost:4000/api';
+const PREBOOK  = 100;
+const SURCHARGE = 150;
+
+// ─── State ───────────────────────────────────────────────
+let selectedDate = null;
+let selectedTime = null;
+let guests = 1;
+
+// ─── Build Date Buttons ──────────────────────────────────
+const days  = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+function buildDates() {
+  const grid = document.getElementById('datesGrid');
+  grid.innerHTML = '';
+  const today = new Date();
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(today);
+    d.setDate(today.getDate() + i);
+    const isWeekend = d.getDay() === 0 || d.getDay() === 6;
+    const iso = d.toISOString().split('T')[0];
+    const btn = document.createElement('button');
+    btn.className = 'date-btn' + (isWeekend ? ' weekend-btn' : '');
+    btn.dataset.date = iso;
+    btn.dataset.weekend = isWeekend ? '1' : '0';
+    btn.innerHTML = `
+      <div class="dow">${i === 0 ? 'Today' : days[d.getDay()]}</div>
+      <div class="day">${d.getDate()}</div>
+      <div class="mon">${months[d.getMonth()]}</div>
+    `;
+    btn.onclick = () => selectDate(btn, iso, isWeekend);
+    grid.appendChild(btn);
+  }
+}
+
+function selectDate(btn, iso, isWeekend) {
+  document.querySelectorAll('.date-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  selectedDate = iso;
+  document.getElementById('weekendBadge').classList.toggle('show', isWeekend);
+  updateSummary();
+}
+
+// ─── Time Buttons ─────────────────────────────────────────
+document.querySelectorAll('.time-btn').forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedTime = btn.dataset.time;
+    updateSummary();
+  };
+});
+
+// ─── Guests ───────────────────────────────────────────────
+function changeGuests(delta) {
+  guests = Math.max(1, Math.min(20, guests + delta));
+  document.getElementById('guestsCount').textContent = guests;
+  updateSummary();
+}
+
+// ─── Summary ─────────────────────────────────────────────
+function getTourInfo() {
+  const val = document.getElementById('tourSelect').value;
+  if (!val) return null;
+  const [name, price] = val.split('|');
+  return { name, price: parseInt(price) };
+}
+
+function isWeekendSelected() {
+  const btn = document.querySelector('.date-btn.active');
+  return btn ? btn.dataset.weekend === '1' : false;
+}
+
+function updateSummary() {
+  const tour = getTourInfo();
+  if (!tour) {
+    document.getElementById('payBtn').disabled = true;
+    return;
+  }
+  const weekend   = isWeekendSelected();
+  const surcharge = weekend ? SURCHARGE * guests : 0;
+  const base      = tour.price * guests;
+  const total     = base + surcharge;
+  const prebook   = PREBOOK * guests;
+  const due       = total - prebook;
+
+  document.getElementById('sumBase').textContent     = `₹${tour.price} × ${guests} = ₹${base}`;
+  document.getElementById('surchargeRow').style.display = weekend ? 'flex' : 'none';
+  document.getElementById('sumSurcharge').textContent   = `₹${surcharge}`;
+  document.getElementById('sumTotal').textContent    = `₹${total}`;
+  document.getElementById('sumPrebook').textContent  = `₹${prebook}`;
+  document.getElementById('sumDue').textContent      = `₹${due}`;
+  document.getElementById('payBtn').textContent      = `Prebook Now — Pay ₹${prebook}`;
+
+  const ready = tour && selectedDate && selectedTime && guests >= 1;
+  document.getElementById('payBtn').disabled = !ready;
+}
+
+document.getElementById('tourSelect').addEventListener('change', updateSummary);
+
+// ─── Payment Flow ─────────────────────────────────────────
+async function startPayment() {
+  const tour  = getTourInfo();
+  const name  = document.getElementById('contactName').value.trim();
+  const phone = document.getElementById('contactPhone').value.trim();
+  const email = document.getElementById('contactEmail').value.trim();
+  const state = document.getElementById('state').value.trim();
+
+  if (!name || !phone) { alert('Please enter your name and WhatsApp number.'); return; }
+  if (!selectedDate)   { alert('Please select a date.'); return; }
+  if (!selectedTime)   { alert('Please select a time slot.'); return; }
+
+  const btn = document.getElementById('payBtn');
+  btn.disabled = true;
+  btn.textContent = 'Creating booking...';
+
+  try {
+    // Step 1: Create booking on server
+    const res = await fetch(`${API_BASE}/bookings`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        tourName: tour.name,
+        tourPrice: tour.price,
+        bookingDate: selectedDate,
+        timeSlot: selectedTime,
+        guests,
+        state,
+        contactName: name,
+        contactEmail: email,
+        contactPhone: phone,
+      }),
+    });
+
+    const data = await res.json();
+    if (!data.success) throw new Error(data.message);
+
+    // Step 2: Open Razorpay
+    const options = {
+      key:         data.razorpayOrder.key,
+      amount:      data.razorpayOrder.amount,
+      currency:    'INR',
+      name:        'Rishikesh Adventure',
+      description: `Prebooking: ${tour.name}`,
+      order_id:    data.razorpayOrder.id,
+      prefill:     { name, email, contact: phone },
+      theme:       { color: '#27ae60' },
+      handler: async function(response) {
+        // Step 3: Verify payment
+        const vRes = await fetch(`${API_BASE}/payments/verify`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            razorpayOrderId:   response.razorpay_order_id,
+            razorpayPaymentId: response.razorpay_payment_id,
+            razorpaySignature: response.razorpay_signature,
+          }),
+        });
+        const vData = await vRes.json();
+        if (vData.success) showSuccess(vData.booking, data.booking);
+        else alert('Payment verification failed: ' + vData.message);
+      },
+      modal: {
+        ondismiss: () => {
+          btn.disabled = false;
+          updateSummary();
+        }
+      }
+    };
+    new Razorpay(options).open();
+
+  } catch (err) {
+    alert('Error: ' + err.message);
+    btn.disabled = false;
+    updateSummary();
+  }
+}
+
+function showSuccess(booking, localData) {
+  document.getElementById('formBody').style.display = 'none';
+  const s = document.getElementById('successScreen');
+  s.classList.add('show');
+  document.getElementById('successDetail').innerHTML = `
+    <div class="row"><span>Adventure</span><strong>${booking.tourName}</strong></div>
+    <div class="row"><span>Date</span><strong>${booking.bookingDate}</strong></div>
+    <div class="row"><span>Time</span><strong>${booking.timeSlot}</strong></div>
+    <div class="row"><span>Guests</span><strong>${booking.guests}</strong></div>
+    <div class="row"><span>Paid Now</span><strong style="color:#27ae60">₹${booking.prebookingAmount}</strong></div>
+    <div class="row"><span>Due on Arrival</span><strong style="color:#e67e22">₹${booking.dueAmount}</strong></div>
+    <div class="row"><span>Booking ID</span><strong style="font-size:0.78rem">${booking._id}</strong></div>
+  `;
+}
+
+function resetForm() {
+  document.getElementById('formBody').style.display = 'flex';
+  document.getElementById('successScreen').classList.remove('show');
+  document.getElementById('tourSelect').value = '';
+  document.getElementById('contactName').value = '';
+  document.getElementById('contactPhone').value = '';
+  document.getElementById('contactEmail').value = '';
+  document.getElementById('state').value = '';
+  document.querySelectorAll('.date-btn, .time-btn').forEach(b => b.classList.remove('active'));
+  selectedDate = null; selectedTime = null; guests = 1;
+  document.getElementById('guestsCount').textContent = '1';
+  document.getElementById('weekendBadge').classList.remove('show');
+  updateSummary();
+}
+
+// ─── Init ─────────────────────────────────────────────────
+buildDates();
+updateSummary();
+</script>
+</body>
+</html>
