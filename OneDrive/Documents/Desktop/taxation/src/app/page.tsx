@@ -122,9 +122,9 @@ const PROCESS_STEPS = [
 ];
 
 const STATS = [
-  { value: "500+", label: "Clients Served" },
+  { value: "100+", label: "Clients Served" },
   { value: "₹50Cr+", label: "Tax Savings" },
-  { value: "10+", label: "Years Experience" },
+  { value: "2+", label: "Years Experience" },
   { value: "100%", label: "Compliance Rate" },
 ];
 
