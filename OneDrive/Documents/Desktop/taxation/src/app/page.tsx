@@ -15,7 +15,7 @@ const SERVICES = [
       </svg>
     ),
     title: "Audit & Assurance",
-    difficulty: "Medium",
+    // difficulty: "Medium",
     difficultyColor: "#f59e0b",
     description: "Statutory audit, tax audit (3CA/3CB-3CD), GST audit, internal audit, stock/bank audits, certifications. Requires UDIN, PI cover, and firm experience.",
     services: ["Statutory Audit", "Tax Audit (3CA/3CB-3CD)", "GST Audit", "Internal Audit", "Stock & Bank Audits", "Certifications & UDIN"],
@@ -30,7 +30,7 @@ const SERVICES = [
       </svg>
     ),
     title: "Direct Tax",
-    difficulty: "Low",
+    // difficulty: "Low",
     difficultyColor: "#10b981",
     description: "Complete income tax services including ITR filing, advance tax planning, assessment representation, notices handling, TDS/TCS returns, and transfer pricing.",
     services: ["ITR Filing", "Advance Tax Planning", "Assessment Representation", "Notices & Appeals", "TDS/TCS Returns", "Transfer Pricing"],
@@ -45,7 +45,7 @@ const SERVICES = [
       </svg>
     ),
     title: "Indirect Tax (GST)",
-    difficulty: "Low",
+    // difficulty: "Low",
     difficultyColor: "#10b981",
     description: "End-to-end GST services from registration to refunds. Handles GST notices and annual return filing with accuracy and compliance.",
     services: ["GST Registration", "Return Filing (GSTR 1/3B)", "GST Refunds", "GST Notices", "Annual Return (GSTR-9)", "E-way Bill Compliance"],
@@ -59,7 +59,7 @@ const SERVICES = [
       </svg>
     ),
     title: "Accounting & Bookkeeping",
-    difficulty: "Low",
+    // difficulty: "Low",
     difficultyColor: "#10b981",
     description: "Monthly accounting, payroll processing, MIS reporting, and Virtual CFO services. Provides steady recurring revenue and strong client retention.",
     services: ["Monthly Accounting", "Payroll Processing", "MIS Reports", "Virtual CFO", "Tally / Zoho Books", "Financial Statements"],
@@ -73,7 +73,7 @@ const SERVICES = [
       </svg>
     ),
     title: "Company Law / ROC",
-    difficulty: "Low–Medium",
+    // difficulty: "Low–Medium",
     difficultyColor: "#f59e0b",
     description: "Company incorporation, annual ROC filings, and ongoing regulatory compliance. Covers all MCA/ROC requirements for private and public companies.",
     services: ["Company Incorporation", "Annual ROC Filings", "MCA Compliance", "DIN & DSC", "Change in Directors", "Share Transfer"],
@@ -86,7 +86,7 @@ const SERVICES = [
       </svg>
     ),
     title: "Advisory & Consulting",
-    difficulty: "Medium–High",
+    // difficulty: "Medium–High",
     difficultyColor: "#ef4444",
     description: "Business setup advisory, FEMA compliance, project reports, valuations, due diligence, and startup advisory. High-value engagements for premium clients.",
     services: ["Business Setup", "FEMA / RBI Compliance", "Project Reports", "Business Valuation", "Due Diligence", "Startup Advisory"],
@@ -339,7 +339,7 @@ export default function Home() {
                 <tr>
                   <th>Service Area</th>
                   <th>Typical Services</th>
-                  <th>Entry Level</th>
+                  {/* <th>Entry Level</th> */}
                 </tr>
               </thead>
               <tbody>
@@ -354,7 +354,7 @@ export default function Home() {
                   <tr key={row.area}>
                     <td className="ca-table-area">{row.area}</td>
                     <td className="ca-table-services">{row.services}</td>
-                    <td><span className="ca-difficulty-badge" style={{ color: row.color, borderColor: row.color + "40", background: row.color + "15" }}>{row.level}</span></td>
+                    {/* <td><span className="ca-difficulty-badge" style={{ color: row.color, borderColor: row.color + "40", background: row.color + "15" }}>{row.level}</span></td> */}
                   </tr>
                 ))}
               </tbody>

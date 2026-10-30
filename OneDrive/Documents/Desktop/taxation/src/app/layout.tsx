@@ -2,15 +2,15 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://kgassociates.in"),
+  metadataBase: new URL("https://taxation-associates.in"),
   title: "Taxation & Associates | Chartered Accountants | Tax, Audit & GST Services",
   description:
     "Taxation & Associates is an ICAI-registered CA firm offering expert services in audit & assurance, direct tax, GST, bookkeeping, company law, and business advisory. Free consultation available.",
   keywords: [
-    "chartered accountant",
+    "chartered accountant in Delhi",
     "CA firm India",
-    "ITR filing",
-    "GST services",
+    "ITR filing in delhi",
+    "GST services in delhi",
     "tax audit",
     "statutory audit",
     "bookkeeping services",
