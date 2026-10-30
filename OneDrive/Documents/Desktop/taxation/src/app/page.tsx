@@ -372,9 +372,9 @@ export default function Home() {
                 <div className="ca-svc-icon">{svc.icon}</div>
                 <div className="ca-svc-header">
                   <h3>{svc.title}</h3>
-                  <span className="ca-svc-difficulty" style={{ color: svc.difficultyColor, borderColor: svc.difficultyColor + "40", background: svc.difficultyColor + "18" }}>
+                  {/* <span className="ca-svc-difficulty" style={{ color: svc.difficultyColor, borderColor: svc.difficultyColor + "40", background: svc.difficultyColor + "18" }}>
                     {svc.difficulty}
-                  </span>
+                  </span> */}
                 </div>
                 <p className="ca-svc-desc">{svc.description}</p>
                 <ul className="ca-svc-list">
